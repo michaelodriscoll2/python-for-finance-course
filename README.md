@@ -1,1 +1,1 @@
-# python-for-finance-course
+# dashboard-project
