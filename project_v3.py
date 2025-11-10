@@ -5,6 +5,8 @@ import streamlit as st
 import plotly.graph_objs as go
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
+import plotly.express as px
 
 st.set_page_config(page_title="MIS20080 - Project", layout="wide")
 
@@ -123,10 +125,6 @@ st.plotly_chart(fig_beta, use_container_width=True)
 
 # Colm (below your app)
 
-import streamlit as st
-import yfinance as yf
-import numpy as np
-
 st.subheader("📊 Competitor Comparison & Risk Metrics")
 
 competitor = st.text_input("Enter Competitor's Stock Ticker", "NVDA").upper()
@@ -227,3 +225,74 @@ else:
         st.line_chart(df_plot[["S&P500", "S&P500_MA"]])
     else:
         st.line_chart(df_plot[["S&P500"]])
+
+#CAPM Expected Return Calculation
+Trading_days=252
+
+#add in section subheader into streamlit app
+st.subheader("CAPM Expected Returns Analysis")
+
+rf=st.number_input("Choose Annual Risk-Free Rate (Default = 2%)",min_value=0.0,max_value=0.04,value=0.02,step=0.001,format="%.4f")
+
+#Algin asset and market returns on overlapping dates
+combined = pd.concat([ticker_returns, SPX_returns], axis=1).dropna()
+combined.columns = [ticker, "S&P500"] #tkr is the asset, S&P500 is the market
+
+if combined.empty:
+    st.warning("Not enough overlapping returns to compute CAPM. Check data/period.") #warning message if not enough data to avoid crashes
+else:
+    asset = combined[ticker]
+    market = combined['S&P500']
+
+ # Have market annual arithmetic return for comparison
+    # code for CAGR can be added later if needed
+
+market_annual_arith = market.mean() * Trading_days
+
+# CAPM expected return formula is risk free rate + beta * (market return - risk free rate)
+#Beta calculated earlier on by Michael
+capm_er = rf + Beta * (market_annual_arith - rf)
+
+# Display results in streamlit app
+st.write(f"Benchmark (S&P 500) Annual Return: {market_annual_arith:.2%}")
+st.write(f"CAPM Annual Expected Return for {ticker}: {capm_er:.2%}")
+
+# Now calculate realized annual returns for the asset for comparison
+#use both arithmetic and geometric returns
+asset_clean = asset.dropna()
+realized_arith = float(asset_clean.mean() * Trading_days) if len(asset_clean) > 0 else float("nan")
+realized_geom = float((np.prod(1.0 + asset_clean) ** (Trading_days / len(asset_clean))) - 1.0) if len(asset_clean)>0 else float("nan")
+
+
+#create dataframe to hold results for display and download
+results_df = pd.DataFrame([{
+    "Ticker": ticker,
+    "Beta": Beta,
+    "Benchmark (S&P 500) Annual Return": market_annual_arith,
+    "CAPM Portfolio Annual Expected Return": capm_er,
+    "Realized Annual Portfolio Arithmetic Return": realized_arith,
+    "Realized Annual Portfolio Geometric Return": realized_geom
+}]).set_index("Ticker")
+
+# UI choice between table and bar chart
+view = st.radio("Show", ["Table", "Bar Chart"], horizontal=True)
+
+if view == "Table":   # Table view
+        st.dataframe(results_df.style.format({
+            "Beta": "{:.4f}",
+            "Benchmark (S&P 500) Annual Return": "{:.2%}",
+            "CAPM Portfolio Annual Expected Return": "{:.2%}",
+            "Realized Annual Portfolio Arithmetic Return": "{:.2%}",
+            "Realized Annual Portfolio Geometric Return": "{:.2%}"
+        }))
+
+else:  # Bar chart
+    bar_df = pd.DataFrame({
+        "Return Metric": ["CAPM Portfolio Annual Expected Return", "Realized Annual Portfolio Arithmetic Return", "Realized Annual Portfolio Geometric Return"],
+        "Annual Percentage Return": [capm_er, realized_geom, realized_arith]
+    })
+    fig = px.bar(bar_df, x="Return Metric", y="Annual Percentage Return", text=bar_df["Annual Percentage Return"].apply(lambda v: f"{v:.2%}"),
+                     title= "CAPM vs Realized Annual Returns Chart")
+    fig.update_traces(textposition="outside")
+    fig.update_yaxes(tickformat=".0%")
+    st.plotly_chart(fig, use_container_width=True)
