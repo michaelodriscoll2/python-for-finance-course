@@ -7,14 +7,39 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import plotly.express as px
+from datetime import datetime, timedelta 
+from scipy.optimize import minimize
 
 st.set_page_config(page_title="MIS20080 - Project", layout="wide")
+
+#Code for portfolio optimisation part
+if "portfolio_tickers" not in st.session_state:
+    st.session_state.portfolio_tickers = []
 
 # User input
 ticker = st.text_input("Enter Stock Ticker", "AAPL").upper()
 if ticker == "":
     st.error("Please enter a valid ticker symbol.")
     st.stop()
+
+
+if ticker:
+    try:
+        # Try downloading recent price data
+        data = yf.download(ticker, period="1d", progress=False)
+
+        if data.empty:  # No data returned -> invalid ticker
+            st.warning(f"Ticker {ticker} not found — discarded.")
+        else:
+            if ticker not in st.session_state.portfolio_tickers:
+                st.session_state.portfolio_tickers.append(ticker)
+                st.success(f"{ticker} added to portfolio.")
+            else:
+                st.info(f"{ticker} is already in your portfolio.")
+    except Exception:
+        st.warning(f"Ticker {ticker} not found — discarded.")
+
+portfolio_tickers = st.session_state.portfolio_tickers
 
 # Industry info
 def get_ticker_industry(ticker):
@@ -296,3 +321,7 @@ else:  # Bar chart
     fig.update_traces(textposition="outside")
     fig.update_yaxes(tickformat=".0%")
     st.plotly_chart(fig, use_container_width=True)
+
+
+#Jack part of project
+
