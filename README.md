@@ -23,28 +23,27 @@ scipy
 
 Key Objects & Functions Descriptions:
 
-Objects                  Description
--------------------------------------------------------------------
-ticker, competitor       User-input stock symbols
-portfolio_tickers        Session state list of tickers
-SPX_returns              Daily returns for S&P 500 benchmark
-ticker_returns           Daily returns for selected stock
-Beta                     5-year beta value
-rolling_beta             60-day rolling beta
-rf                       Annual risk-free rate                    
-log_returns              Logarithmic returns for portfolio assets
-cov_matrix               Annualized covariance matrix
-optimal_weights          Optimized asset weights
-capm_er_daily            CAPM expected daily stock return 
-capm_er_quarterly        CAPM expected quarterly stock return 
-capm_er_annual           CAPM expected annual stock return 
+Objects:              | Description
+----------------------|------------------------------------------------------------
+ticker, competitor    | User-input stock symbols
+portfolio_tickers     | Session state list of tickers
+SPX_returns           | Daily returns for S&P 500 benchmark
+ticker_returns        | Daily returns for selected stock
+Beta                  | 5-year beta value
+rolling_beta          | 60-day rolling beta
+rf                    | Annual risk-free rate
+log_returns           | Logarithmic returns for portfolio assets
+cov_matrix            | Annualized covariance matrix
+optimal_weights       | Optimized asset weights
+capm_er_daily         | CAPM expected daily stock return
+capm_er_quarterly     | CAPM expected quarterly stock return
+capm_er_annual        | CAPM expected annual stock return
 
 Functions:
--------------------------------------------------------------------
-expected_returns()       Computes expected portfolio return
-standard_deviation()     Computes portfolio volatility
-sharpe_ratio()           Computes Sharpe Ratio
-neg_sharpe_ratio()       Negative Sharpe Ratio for optimization
+expected_returns()    | Computes expected portfolio return
+standard_deviation()  | Computes portfolio volatility
+sharpe_ratio()        | Computes Sharpe Ratio
+neg_sharpe_ratio()    | Negative Sharpe Ratio for optimization
 
 How It Works:
 
