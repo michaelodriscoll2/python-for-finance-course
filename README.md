@@ -23,8 +23,10 @@ scipy
 
 Key Objects & Functions Descriptions:
 
-Objects:              | Description
+Name                  | Description
 ----------------------|------------------------------------------------------------
+Objects:              |
+                      |
 ticker, competitor    | User-input stock symbols
 portfolio_tickers     | Session state list of tickers
 SPX_returns           | Daily returns for S&P 500 benchmark
@@ -37,7 +39,8 @@ cov_matrix            | Annualized covariance matrix
 optimal_weights       | Optimized asset weights
 capm_er_daily         | CAPM expected daily stock return
 capm_er_quarterly     | CAPM expected quarterly stock return
-capm_er_annual        | CAPM expected annual stock return                   
+capm_er_annual        | CAPM expected annual stock return     
+                      |
 Functions:            |
 expected_returns()    | Computes expected portfolio return
 standard_deviation()  | Computes portfolio volatility
