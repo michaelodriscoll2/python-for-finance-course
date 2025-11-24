@@ -38,8 +38,8 @@ optimal_weights       | Optimized asset weights
 capm_er_daily         | CAPM expected daily stock return
 capm_er_quarterly     | CAPM expected quarterly stock return
 capm_er_annual        | CAPM expected annual stock return
-
-Functions:
+                      |
+Functions:            |
 expected_returns()    | Computes expected portfolio return
 standard_deviation()  | Computes portfolio volatility
 sharpe_ratio()        | Computes Sharpe Ratio
