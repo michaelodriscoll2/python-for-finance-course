@@ -173,7 +173,7 @@ st.plotly_chart(fig_beta, use_container_width=True)
 
 # Colm (below your app)
 
-st.subheader("📊 Competitor Comparison & Risk Metrics")
+st.subheader("Competitor Comparison & Risk Metrics")
 
 competitor = st.text_input("Enter Competitor's Stock Ticker", "NVDA").upper()
 if competitor == "":
@@ -291,8 +291,11 @@ st.subheader("CAPM Model")
 st.caption("CAPM Formula: E(Ri) = Rf + βi (E(Rm) - Rf)")
 
 # risk-free rate input
+# Irish 10-year treasury bond yield is 2.901% as of nov 26 2025
+#US 10-year treasury bond yield is 4.02% as of nov 26 2025
+#figures taken from Trading Economics website
 rf = st.number_input("Choose Annual Risk-Free Rate (0 to 4%)",
-                     min_value=0.0, max_value=0.04, value=0.02, step=0.001, format="%.4f")
+                     min_value=0.0, max_value=0.05, value=0.02, step=0.001, format="%.4f")
 
 # align asset and market returns on overlapping dates
 combined = pd.concat([ticker_returns, SPX_returns], axis=1).dropna()
@@ -326,7 +329,7 @@ else:
     cols[1].metric("S&P 500 Annual return", f"{market_annual_arith:.2%}")
     cols[2].metric("CAPM Annual Return", f"{capm_er_annual:.2%}")
     cols[3].metric("CAPM Quarterly Return", f"{capm_er_quarterly:.2%}")
-    cols[4].metric("CAPM Daily Return", f"{capm_er_daily:.4%}")
+    cols[4].metric("CAPM Daily Return", f"{capm_er_daily:.2%}")
 
     # realized returns (annualized)
     asset_clean = asset.dropna()
