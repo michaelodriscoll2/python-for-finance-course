@@ -62,5 +62,5 @@ Uses yfinance to download historical price data for tickers and benchmark.
 3. Metrics are computed and displayed and portfolio optimization is  carried out.    
 
 Note:
-The app can be run in VS Code via the python terminal (base (3.13.5) Conda environment) using the command: streamlit run Final_Version_v1.py
+The app can be run in VS Code via the python terminal (base (3.13.5) Conda environment) using the command: streamlit run Final_Version_v3.py
 Alternatively, it can be accessed directly on Streamlit with the following link:
