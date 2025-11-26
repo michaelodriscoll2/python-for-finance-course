@@ -41,6 +41,7 @@ capm_er_quarterly     | CAPM expected quarterly stock return
 capm_er_annual        | CAPM expected annual stock return     
 Functions:            |
 expected_returns()    | Computes expected portfolio return
+get_10y_gov_bond_yield() | Gets US Treasury 10 year bond yield
 standard_deviation()  | Computes portfolio volatility
 sharpe_ratio()        | Computes Sharpe Ratio
 neg_sharpe_ratio()    | Negative Sharpe Ratio for optimization
